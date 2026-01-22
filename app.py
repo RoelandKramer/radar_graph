@@ -11,17 +11,14 @@ from analysis import (
     build_den_bosch_table,
     compare_player_to_eredivisie)
 
-from pathlib import Path
-import base64
-import pandas as pd
-import streamlit as st
 
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide",
 )
+from pathlib import Path
+import base64
 
-# --- Load and encode logo ---
 LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
 
 def get_base64_image(path: Path) -> str:
@@ -30,36 +27,42 @@ def get_base64_image(path: Path) -> str:
 
 logo_base64 = get_base64_image(LOGO_PATH)
 
-# --- Inject CSS + HTML for sidebar logo ---
-st.markdown(
-    f"""
-    <style>
-    /* Make sidebar relative so we can position inside it */
-    [data-testid="stSidebar"] {{
-        position: relative;
-    }}
+# --- Sidebar logo (BOTTOM) ---
+with st.sidebar:
+    st.markdown(
+        f"""
+        <style>
+        /* Ensure sidebar positioning context */
+        [data-testid="stSidebar"] {{
+            position: relative;
+        }}
 
-    /* Logo container */
-    .sidebar-logo {{
-        position: absolute;
-        bottom: 200x;
-        left: 20px;
-        width: 120px;
-        opacity: 0.95;
-    }}
+        /* Bottom logo */
+        .sidebar-logo {{
+            position: fixed;
+            bottom: 20px;     /* ⬅️ controls distance from bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;     /* ⬅️ logo size */
+            opacity: 0.95;
+            z-index: 9999;
+        }}
 
-    .sidebar-logo img {{
-        width: 100%;
-        height: 10%;
-    }}
-    </style>
+        .sidebar-logo img {{
+            width: 100%;
+            height: auto;
+        }}
+        </style>
 
-    <div class="sidebar-logo">
-        <img src="data:image/png;base64,{logo_base64}">
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+        <div class="sidebar-logo">
+            <img src="data:image/png;base64,{logo_base64}">
+        </div>
+
+        <!-- spacer so it doesn't overlap sidebar content -->
+        <div style="height:200px;"></div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
@@ -186,5 +189,6 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
