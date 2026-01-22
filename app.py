@@ -11,8 +11,7 @@ import pandas as pd
 import streamlit as st
 
 st.set_page_config(
-    page_title="Player vs Eredivisie Radar",
-    layout="wide",
+    page_title="Player vs Eredivisie Radar"
 )
 
 
@@ -131,6 +130,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
