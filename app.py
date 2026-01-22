@@ -46,13 +46,10 @@ def build_tables(df_all: pd.DataFrame):
     eredivisie_plus3, kkd_plus3 = build_league_tables(df_averages)
     return df_averages, eredivisie_plus3, kkd_plus3
 
-
 try:
     df_all = load_raw_data(DATA_PATH)
     df_averages, eredivisie_plus3, kkd_plus3 = build_tables(df_all)
-
-
-den_bosch = build_den_bosch_table(df_averages, club_name="FC Den Bosch")
+    den_bosch = build_den_bosch_table(df_averages, club_name="FC Den Bosch")
 except Exception as e:
     st.error(str(e))
     st.stop()
@@ -114,6 +111,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
