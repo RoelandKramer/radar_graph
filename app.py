@@ -89,16 +89,12 @@ if run:
 
         st.pyplot(fig, use_container_width=True)
 
-        with st.expander("Show tables used (after filtering)"):
-            st.subheader("KKD (players with >2 matches ≥80 min)")
-            st.dataframe(kkd_plus3, use_container_width=True)
-            st.subheader("Eredivisie (players with >2 matches ≥80 min)")
-            st.dataframe(eredivisie_plus3, use_container_width=True)
 
     except Exception as e:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
