@@ -63,7 +63,7 @@ if use_player_2:
 percentile = st.sidebar.slider("Eredivisie benchmark percentile", 0.50, 0.0, 1.0, 0.01)
 
 positions = sorted(eredivisie_plus3["position"].dropna().unique().tolist())
-positions = ["DM", "LB", "CB", "RB", "DM", "CM", "AM", "LW", "CF", "RW"]
+positions = ["GK", "LB", "CB", "RB", "DM", "CM", "AM", "LW", "CF", "RW"]
 position_override = st.sidebar.selectbox("Position override (optional)", ["(auto)"] + positions)
 if position_override == "(auto)":
     position_override = None
@@ -99,6 +99,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
