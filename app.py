@@ -8,7 +8,7 @@ import streamlit as st
 from analysis import (
     build_df_averages,
     build_league_tables,
-    build_den_bosch_table
+    build_den_bosch_table,
     compare_player_to_eredivisie,
 )
 
@@ -114,6 +114,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
