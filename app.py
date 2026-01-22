@@ -12,6 +12,46 @@ from analysis import (
     compare_player_to_eredivisie,
 )
 
+# --- Load and encode logo ---
+LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
+
+def get_base64_image(path: Path) -> str:
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+logo_base64 = get_base64_image(LOGO_PATH)
+
+# --- Inject CSS + HTML for sidebar logo ---
+st.markdown(
+    f"""
+    <style>
+    /* Make sidebar relative so we can position inside it */
+    [data-testid="stSidebar"] {{
+        position: relative;
+    }}
+
+    /* Logo container */
+    .sidebar-logo {{
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: 120px;
+        opacity: 0.95;
+    }}
+
+    .sidebar-logo img {{
+        width: 100%;
+        height: auto;
+    }}
+    </style>
+
+    <div class="sidebar-logo">
+        <img src="data:image/png;base64,{logo_base64}">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide")
@@ -108,6 +148,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
