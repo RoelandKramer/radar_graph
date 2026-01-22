@@ -39,8 +39,6 @@ except Exception as e:
     st.error(str(e))
     st.stop()
 
-st.caption(f"Loaded data from repo: `{DATA_PATH.as_posix()}`")
-st.caption(f"Rows in raw file: {len(df_all):,}")
 
 # --- Sidebar controls ---
 st.sidebar.header("Settings")
@@ -97,4 +95,5 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
