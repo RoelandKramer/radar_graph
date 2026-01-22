@@ -60,7 +60,7 @@ st.sidebar.markdown(
     </div>
     """,
     unsafe_allow_html=True,
-))
+)
     
 st.markdown(
     """
@@ -154,6 +154,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
