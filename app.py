@@ -1,6 +1,5 @@
 # app.py
 from pathlib import Path
-
 import pandas as pd
 import streamlit as st
 import streamlit as st
@@ -111,6 +110,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
