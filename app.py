@@ -122,7 +122,7 @@ st.sidebar.markdown(
     }}
     .sidebar-logo {{
         position: absolute;
-        top: 240px;
+        top: 180px;
         left: 50%;
         transform: translateX(-50%);
         width: 160px;
@@ -168,6 +168,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
