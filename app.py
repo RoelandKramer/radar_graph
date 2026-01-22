@@ -14,6 +14,16 @@ st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide",
 )
+
+
+LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
+
+def get_base64_image(path: Path) -> str:
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+logo_base64 = get_base64_image(LOGO_PATH)   # <-- must happen BEFORE st.markdown below
+
 with st.sidebar:
     st.markdown(
         f"""
@@ -21,17 +31,15 @@ with st.sidebar:
         [data-testid="stSidebar"] {{
             position: relative;
         }}
-
         .sidebar-logo {{
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 180px;   /* ⬅️ make logo larger */
+            width: 180px;
             opacity: 0.95;
             z-index: 9999;
         }}
-
         .sidebar-logo img {{
             width: 100%;
             height: auto;
@@ -44,20 +52,6 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
-
-
-st.markdown(
-    """
-    <style>
-        .block-container {
-            max-width: 1100px;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
 # --- Load CSV from repo (no uploader) ---
 DATA_PATH = Path(__file__).parent / "data" / "physical_data_matches.csv"
 
@@ -138,6 +132,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
