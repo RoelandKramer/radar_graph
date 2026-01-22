@@ -19,9 +19,9 @@ METRICS_PLOT = [
 
 VISUAL_MAXES_DEFAULT = {
     "avg_total_distance": 13000,
-    "avg_HI_distance": 1500,
+    "avg_HI_distance": 1600,
     "avg_sprint_distance": 500,
-    "avg_HI_runs": 50,
+    "avg_HI_runs": 60,
     "avg_sprint_runs": 20,
 }
 
@@ -247,6 +247,7 @@ def compare_player_to_eredivisie(
         "percentile": percentile,
     }
     return fig, meta
+
 
 
 
