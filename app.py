@@ -23,7 +23,6 @@ def get_base64_image(path: Path) -> str:
         return base64.b64encode(f.read()).decode()
 
 logo_base64 = get_base64_image(LOGO_PATH)   # <-- must happen BEFORE st.markdown below
-
 with st.sidebar:
     st.markdown(
         f"""
@@ -31,15 +30,17 @@ with st.sidebar:
         [data-testid="stSidebar"] {{
             position: relative;
         }}
+
         .sidebar-logo {{
             position: fixed;
-            top: 50%;
+            top: 65%;              /* ⬅️ lower than center */
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 180px;
+            width: 180px;          /* ⬅️ size (adjust if needed) */
             opacity: 0.95;
             z-index: 9999;
         }}
+
         .sidebar-logo img {{
             width: 100%;
             height: auto;
@@ -52,6 +53,8 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
+
+    st.markdown("<div style='height:260px;'></div>", unsafe_allow_html=True)
 # --- Load CSV from repo (no uploader) ---
 DATA_PATH = Path(__file__).parent / "data" / "physical_data_matches.csv"
 
@@ -132,6 +135,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
