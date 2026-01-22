@@ -11,6 +11,8 @@ from analysis import (
     build_den_bosch_table,
     compare_player_to_eredivisie,
 )
+from pathlib import Path
+import base64
 
 # --- Load and encode logo ---
 LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
@@ -148,6 +150,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
