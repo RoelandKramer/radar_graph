@@ -5,9 +5,6 @@ import pandas as pd
 import streamlit as st
 import streamlit as st
 
-st.title("If you can see this, Streamlit is rendering ✅")
-st.write("Now we can debug the rest.")
-
 
 from analysis import (
     build_df_averages,
@@ -15,8 +12,6 @@ from analysis import (
     compare_player_to_eredivisie,
 )
 
-st.set_page_config(page_title="Player vs Eredivisie Radar", layout="wide")
-st.title("⚽ Player vs Eredivisie — Radar Comparison")
 
 # --- Load CSV from repo (no uploader) ---
 DATA_PATH = Path(__file__).parent / "data" / "physical_data_matches.csv"
@@ -102,3 +97,4 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
