@@ -1,67 +1,28 @@
 # app.py
 from pathlib import Path
+import base64
+
 import pandas as pd
 import streamlit as st
-import streamlit as st
-
 
 from analysis import (
     build_df_averages,
     build_league_tables,
     build_den_bosch_table,
-    compare_player_to_eredivisie)
+    compare_player_to_eredivisie,
+)
 
-
+# -----------------------------
+# Page config (must be first Streamlit call)
+# -----------------------------
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide",
 )
-from pathlib import Path
-import base64
 
-
-st.set_page_config(
-    page_title="Player vs Eredivisie Radar",
-    layout="wide")
-
-LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
-
-def get_base64_image(path: Path) -> str:
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-logo_base64 = get_base64_image(LOGO_PATH)
-
-# --- Sidebar logo (BOTTOM) ---
-st.sidebar.markdown(
-    f"""
-    <style>
-    [data-testid="stSidebar"] {{
-        position: relative;
-    }}
-
-    .sidebar-logo {{
-        position: absolute;
-        bottom: 24px;          /* distance from bottom of sidebar */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 160px;          /* logo size */
-        opacity: 0.95;
-    }}
-
-    .sidebar-logo img {{
-        width: 100%;
-        height: auto;
-    }}
-    </style>
-
-    <div class="sidebar-logo">
-        <img src="data:image/png;base64,{logo_base64}">
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-    
+# -----------------------------
+# Optional: limit main content width
+# -----------------------------
 st.markdown(
     """
     <style>
@@ -74,7 +35,21 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-# --- Load CSV from repo (no uploader) ---
+
+# -----------------------------
+# Load and encode logo
+# -----------------------------
+LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
+
+def get_base64_image(path: Path) -> str:
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+logo_base64 = get_base64_image(LOGO_PATH)
+
+# -----------------------------
+# Load CSV from repo
+# -----------------------------
 DATA_PATH = Path(__file__).parent / "data" / "physical_data_matches.csv"
 
 @st.cache_data
@@ -100,8 +75,9 @@ except Exception as e:
     st.error(str(e))
     st.stop()
 
-
-# --- Sidebar controls ---
+# -----------------------------
+# Sidebar controls
+# -----------------------------
 st.sidebar.header("Settings")
 
 player_names = sorted(den_bosch["player_name"].dropna().unique().tolist())
@@ -118,9 +94,15 @@ if use_player_2:
     if player_2 == "(none)":
         player_2 = None
 
-percentile = st.sidebar.slider("Eredivisie benchmark percentile", 0.50, 0.0, 1.0, 0.01)
+# Percentile slider: 0.01 to 1.00 step 0.01
+percentile = st.sidebar.slider(
+    "Eredivisie benchmark percentile",
+    min_value=0.01,
+    max_value=1.00,
+    value=1.00,
+    step=0.01,
+)
 
-positions = sorted(eredivisie_plus3["position"].dropna().unique().tolist())
 positions = ["GK", "LB", "CB", "RB", "DM", "CM", "AM", "LW", "CF", "RW"]
 position_override = st.sidebar.selectbox("Position override (optional)", ["(auto)"] + positions)
 if position_override == "(auto)":
@@ -128,35 +110,61 @@ if position_override == "(auto)":
 
 run = st.sidebar.button("Generate radar chart", type="primary")
 
-# --- Output ---
+# Spacer so the logo never overlaps the controls
+st.sidebar.markdown("<div style='height:220px;'></div>", unsafe_allow_html=True)
+
+# Logo bottom-middle INSIDE sidebar (no overlap with main page)
+st.sidebar.markdown(
+    f"""
+    <style>
+    [data-testid="stSidebar"] {{
+        position: relative;
+    }}
+    .sidebar-logo {{
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 160px;
+        opacity: 0.95;
+        z-index: 1;
+    }}
+    .sidebar-logo img {{
+        width: 100%;
+        height: auto;
+    }}
+    </style>
+
+    <div class="sidebar-logo">
+        <img src="data:image/png;base64,{logo_base64}">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# -----------------------------
+# Output
+# -----------------------------
 if run:
     try:
         fig, meta = compare_player_to_eredivisie(
             player_1,
-            kkd_averages_plus3matches=den_bosch,            
+            kkd_averages_plus3matches=den_bosch,  # FC Den Bosch players can have >=1 match
             eredivisie_averages_plus3matches=eredivisie_plus3,
             percentile=float(percentile),
             second_player_name=player_2,
             position_plot=position_override,
         )
-        c1, c2, c3, c4 = st.columns(4)
-        c1, c2, c3, c4 = st.columns([1, 2.5, 2.5, 1.5])
 
+        c1, c2, c3, c4 = st.columns([1, 2.5, 2.5, 1.5])
         c1.metric("Position used", meta["target_position"])
         c2.metric("Selected player", player_1)
         c3.metric("Benchmark player", meta["benchmark_name"])
-        c4.metric("Benchmark percentile", f"{int(meta['percentile']*100)}%")
+        c4.metric("Benchmark percentile", f"{int(meta['percentile'] * 100)}%")
 
         st.pyplot(fig, use_container_width=True)
-
 
     except Exception as e:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
-
-
-
-
-
-
