@@ -27,7 +27,7 @@ st.markdown(
     """
     <style>
         .block-container {
-            max-width: 9000px;
+            max-width: 900px;
             padding-left: 2rem;
             padding-right: 2rem;
         }
@@ -168,6 +168,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
