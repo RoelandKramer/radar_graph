@@ -1,4 +1,4 @@
-# app.py
+Bo# app.py
 from pathlib import Path
 
 import pandas as pd
@@ -70,7 +70,7 @@ if not player_names:
 
 player_1 = st.sidebar.selectbox(f"Player 1 ({club_filter})", player_names)
 
-use_player_2 = st.sidebar.checkbox("Compare with second player", value=False)
+use_player_2 = st.sidebar.checkbox("Compare with second Den Bosch player", value=False)
 player_2 = None
 if use_player_2:
     player_2 = st.sidebar.selectbox("Player 2", ["(none)"] + player_names)
@@ -112,6 +112,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
