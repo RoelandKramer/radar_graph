@@ -14,7 +14,7 @@ from analysis import (
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="open",
 )
 
 st.markdown(
@@ -113,6 +113,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
