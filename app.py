@@ -11,10 +11,24 @@ from analysis import (
     build_league_tables,
     compare_player_to_eredivisie,
 )
-
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
-    layout="wide")
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
+st.markdown(
+    """
+    <style>
+        .block-container {
+            max-width: 1100px;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 # --- Load CSV from repo (no uploader) ---
 DATA_PATH = Path(__file__).parent / "data" / "physical_data_matches.csv"
 
@@ -96,6 +110,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
