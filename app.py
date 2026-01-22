@@ -19,50 +19,6 @@ st.set_page_config(
 from pathlib import Path
 import base64
 
-LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
-
-def get_base64_image(path: Path) -> str:
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-logo_base64 = get_base64_image(LOGO_PATH)
-
-# --- Sidebar logo (BOTTOM) ---
-with st.sidebar:
-    st.markdown(
-        f"""
-        <style>
-        /* Ensure sidebar positioning context */
-        [data-testid="stSidebar"] {{
-            position: relative;
-        }}
-
-        /* Bottom logo */
-        .sidebar-logo {{
-            position: fixed;
-            bottom: 20px;     /* ⬅️ controls distance from bottom */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 160px;     /* ⬅️ logo size */
-            opacity: 0.95;
-            z-index: 9999;
-        }}
-
-        .sidebar-logo img {{
-            width: 100%;
-            height: auto;
-        }}
-        </style>
-
-        <div class="sidebar-logo">
-            <img src="data:image/png;base64,{logo_base64}">
-        </div>
-
-        <!-- spacer so it doesn't overlap sidebar content -->
-        <div style="height:200px;"></div>
-        """,
-        unsafe_allow_html=True,
-    )
 
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
@@ -189,6 +145,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
