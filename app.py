@@ -50,7 +50,7 @@ st.markdown(
 
     .sidebar-logo img {{
         width: 100%;
-        height: auto;
+        height: 10%;
     }}
     </style>
 
@@ -186,3 +186,4 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
