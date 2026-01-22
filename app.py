@@ -14,31 +14,24 @@ st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide",
 )
-
-LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
-
-def get_base64_image(path: Path) -> str:
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-logo_base64 = get_base64_image(LOGO_PATH)
-
 with st.sidebar:
     st.markdown(
         f"""
         <style>
-        /* sidebar must be relative for absolute positioning */
         [data-testid="stSidebar"] {{
             position: relative;
         }}
-        /* pin logo at bottom-left of sidebar */
+
         .sidebar-logo {{
             position: fixed;
-            bottom: 16px;
-            left: 16px;
-            width: 120px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;   /* ⬅️ make logo larger */
+            opacity: 0.95;
             z-index: 9999;
         }}
+
         .sidebar-logo img {{
             width: 100%;
             height: auto;
@@ -51,7 +44,8 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
-    
+
+
 st.markdown(
     """
     <style>
@@ -144,6 +138,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
