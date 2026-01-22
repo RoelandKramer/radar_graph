@@ -12,7 +12,11 @@ from analysis import (
     compare_player_to_eredivisie,
 )
 
-
+st.set_page_config(
+    page_title="Player vs Eredivisie Radar",
+    layout="wide",
+    initial_sidebar_state="collapsed",  # <-- add this
+)
 # --- Load CSV from repo (no uploader) ---
 DATA_PATH = Path(__file__).parent / "data" / "physical_data_matches.csv"
 
@@ -94,6 +98,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
