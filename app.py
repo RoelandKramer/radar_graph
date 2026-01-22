@@ -42,7 +42,7 @@ st.markdown(
     /* Logo container */
     .sidebar-logo {{
         position: absolute;
-        bottom: 20px;
+        bottom: 200x;
         left: 20px;
         width: 120px;
         opacity: 0.95;
@@ -186,4 +186,5 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
