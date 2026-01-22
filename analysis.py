@@ -117,14 +117,15 @@ def compare_player_to_eredivisie(
 
     # --- Player 1 ---
     p1_data = kkd_averages_plus3matches[kkd_averages_plus3matches["player_name"] == player_name].copy()
-    p1_games = int(p1_data["matches_more_than_80"].iloc[0])
     
     if p1_data.empty:
-        raise ValueError(f"Player 1 '{player_name}' not found in KKD table (plus3matches).")
-
+        raise ValueError(f"Player 1 '{player_name}' not found in table.")
+    
+    p1_games = int(p1_data["matches_more_than_80"].iloc[0])
     target_position = position_plot if position_plot is not None else p1_data["position"].iloc[0]
     p1_values = p1_data[plot_metrics].iloc[0].tolist()
     p1_club = p1_data["club"].iloc[0]
+    
 
     # --- Player 2 (optional) ---
     p2_values = None
@@ -235,5 +236,6 @@ def compare_player_to_eredivisie(
         "percentile": percentile,
     }
     return fig, meta
+
 
 
