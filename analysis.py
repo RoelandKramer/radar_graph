@@ -82,6 +82,15 @@ def build_league_tables(df_averages: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
 
     return eredivisie_plus3, kkd_plus3
 
+def build_den_bosch_table(df_averages: pd.DataFrame, club_name: str = "FC Den Bosch") -> pd.DataFrame:
+    """
+    Players from FC Den Bosch with at least 1 match of 80+ minutes.
+    (Minutes>=80 filtering already happened inside build_df_averages)
+    """
+    return df_averages[
+        (df_averages["club"] == club_name) &
+        (df_averages["matches_more_than_80"] >= 1)
+    ].copy()
 
 def compare_player_to_eredivisie(
     player_name: str,
@@ -238,6 +247,7 @@ def compare_player_to_eredivisie(
         "percentile": percentile,
     }
     return fig, meta
+
 
 
 
