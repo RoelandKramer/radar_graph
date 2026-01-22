@@ -117,6 +117,8 @@ def compare_player_to_eredivisie(
 
     # --- Player 1 ---
     p1_data = kkd_averages_plus3matches[kkd_averages_plus3matches["player_name"] == player_name].copy()
+    p1_games = int(p1_data["matches_more_than_80"].iloc[0])
+    
     if p1_data.empty:
         raise ValueError(f"Player 1 '{player_name}' not found in KKD table (plus3matches).")
 
@@ -129,6 +131,7 @@ def compare_player_to_eredivisie(
     p2_club = None
     if second_player_name:
         p2_data = kkd_averages_plus3matches[kkd_averages_plus3matches["player_name"] == second_player_name].copy()
+        p2_games = int(p2_data["matches_more_than_80"].iloc[0])
         if p2_data.empty:
             raise ValueError(f"Player 2 '{second_player_name}' not found in KKD table (plus3matches).")
         p2_values = p2_data[plot_metrics].iloc[0].tolist()
@@ -200,14 +203,16 @@ def compare_player_to_eredivisie(
     # Player 1
     p1_norm = [v / visual_maxes[m] for v, m in zip(p1_values, plot_metrics)]
     p1_norm += p1_norm[:1]
-    ax.plot(angles, p1_norm, linewidth=3, linestyle="solid", color="#ff7f0e", label=player_name)
+    ax.plot(angles, p1_norm, linewidth=3, linestyle="solid", color="#ff7f0e", label=f"{player_name} ({p1_games} games)",
+)
     ax.fill(angles, p1_norm, color="#ff7f0e", alpha=0.15)
 
     # Player 2
     if p2_values is not None:
         p2_norm = [v / visual_maxes[m] for v, m in zip(p2_values, plot_metrics)]
         p2_norm += p2_norm[:1]
-        ax.plot(angles, p2_norm, linewidth=3, linestyle="solid", color="#2ca02c", label=second_player_name)
+        ax.plot(angles, p2_norm, linewidth=3, linestyle="solid", color="#2ca02c", label=f"{second_player_name} ({p2_games} games)",
+)
         ax.fill(angles, p2_norm, color="#2ca02c", alpha=0.15)
 
     ax.set_xticks(angles[:-1])
