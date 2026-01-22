@@ -217,8 +217,8 @@ def compare_player_to_eredivisie(
     plt.legend(loc="upper right", bbox_to_anchor=(1.35, 1.1))
 
     title_names = player_name if not second_player_name else f"{player_name} & {second_player_name}"
-    title_text = f"{title_names}\nvs Top {int(percentile*100)}% Eredivisie ({benchmark_name})"
-    plt.title(title_text, size=16, color="black", y=1.08, weight="bold")
+    # title_text = f"{title_names}\nvs Top {int(percentile*100)}% Eredivisie ({benchmark_name})"
+    # plt.title(title_text, size=16, color="black", y=1.08, weight="bold")
 
     plt.tight_layout()
 
@@ -230,4 +230,5 @@ def compare_player_to_eredivisie(
         "percentile": percentile,
     }
     return fig, meta
+
 
