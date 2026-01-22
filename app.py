@@ -8,8 +8,10 @@ import streamlit as st
 from analysis import (
     build_df_averages,
     build_league_tables,
+    build_den_bosch_table
     compare_player_to_eredivisie,
 )
+
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
     layout="wide")
@@ -48,6 +50,9 @@ def build_tables(df_all: pd.DataFrame):
 try:
     df_all = load_raw_data(DATA_PATH)
     df_averages, eredivisie_plus3, kkd_plus3 = build_tables(df_all)
+
+
+den_bosch = build_den_bosch_table(df_averages, club_name="FC Den Bosch")
 except Exception as e:
     st.error(str(e))
     st.stop()
@@ -65,7 +70,7 @@ if not player_names:
     st.error(f"No players found for club '{club_filter}' after filtering.")
     st.stop()
 
-player_1 = st.sidebar.selectbox(f"Player 1 ({club_filter})", player_names)
+player_1 = st.sidebar.selectbox("Player 1 (FC Den Bosch)", player_names)
 
 use_player_2 = st.sidebar.checkbox("Compare with second player", value=False)
 player_2 = None
@@ -88,13 +93,12 @@ if run:
     try:
         fig, meta = compare_player_to_eredivisie(
             player_1,
-            kkd_averages_plus3matches=kkd_plus3,
+            kkd_averages_plus3matches=den_bosch,            
             eredivisie_averages_plus3matches=eredivisie_plus3,
             percentile=float(percentile),
             second_player_name=player_2,
             position_plot=position_override,
         )
-
         c1, c2, c3, c4 = st.columns(4)
         c1, c2, c3, c4 = st.columns([1, 2.5, 2.5, 1.5])
 
@@ -110,6 +114,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
