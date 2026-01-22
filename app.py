@@ -10,49 +10,49 @@ from analysis import (
     build_league_tables,
     build_den_bosch_table,
     compare_player_to_eredivisie)
-# )
-# from pathlib import Path
-# import base64
 
-# # --- Load and encode logo ---
-# LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
+from pathlib import Path
+import base64
 
-# def get_base64_image(path: Path) -> str:
-#     with open(path, "rb") as f:
-#         return base64.b64encode(f.read()).decode()
+# --- Load and encode logo ---
+LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
 
-# logo_base64 = get_base64_image(LOGO_PATH)
+def get_base64_image(path: Path) -> str:
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
-# # --- Inject CSS + HTML for sidebar logo ---
-# st.markdown(
-#     f"""
-#     <style>
-#     /* Make sidebar relative so we can position inside it */
-#     [data-testid="stSidebar"] {{
-#         position: relative;
-#     }}
+logo_base64 = get_base64_image(LOGO_PATH)
 
-#     /* Logo container */
-#     .sidebar-logo {{
-#         position: absolute;
-#         bottom: 20px;
-#         left: 20px;
-#         width: 120px;
-#         opacity: 0.95;
-#     }}
+# --- Inject CSS + HTML for sidebar logo ---
+st.markdown(
+    f"""
+    <style>
+    /* Make sidebar relative so we can position inside it */
+    [data-testid="stSidebar"] {{
+        position: relative;
+    }}
 
-#     .sidebar-logo img {{
-#         width: 100%;
-#         height: auto;
-#     }}
-#     </style>
+    /* Logo container */
+    .sidebar-logo {{
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: 120px;
+        opacity: 0.95;
+    }}
 
-#     <div class="sidebar-logo">
-#         <img src="data:image/png;base64,{logo_base64}">
-#     </div>
-#     """,
-#     unsafe_allow_html=True,
-# )
+    .sidebar-logo img {{
+        width: 100%;
+        height: auto;
+    }}
+    </style>
+
+    <div class="sidebar-logo">
+        <img src="data:image/png;base64,{logo_base64}">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.set_page_config(
     page_title="Player vs Eredivisie Radar",
@@ -150,6 +150,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
