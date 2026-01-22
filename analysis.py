@@ -165,7 +165,7 @@ def compare_player_to_eredivisie(
     angles = [n / float(N) * 2 * pi for n in range(N)]
     angles += angles[:1]
 
-    fig, ax = plt.subplots(figsize=(10, 10), subplot_kw={"projection": "polar"})
+    fig, ax = plt.subplots(figsize=(13, 13), subplot_kw={"projection": "polar"})
 
     ax.set_ylim(0, 1.0)
     ax.set_yticklabels([])
@@ -230,3 +230,4 @@ def compare_player_to_eredivisie(
         "percentile": percentile,
     }
     return fig, meta
+
