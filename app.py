@@ -58,13 +58,9 @@ except Exception as e:
 # --- Sidebar controls ---
 st.sidebar.header("Settings")
 
-# Only FC Den Bosch players
-club_filter = "FC Den Bosch"
-kkd_club = kkd_plus3[kkd_plus3["club"] == club_filter].copy()
-
-player_names = sorted(kkd_club["player_name"].dropna().unique().tolist())
+player_names = sorted(den_bosch["player_name"].dropna().unique().tolist())
 if not player_names:
-    st.error(f"No players found for club '{club_filter}' after filtering.")
+    st.error("No FC Den Bosch players found with Minutes>=80 and >=1 match.")
     st.stop()
 
 player_1 = st.sidebar.selectbox("Player 1 (FC Den Bosch)", player_names)
@@ -72,9 +68,10 @@ player_1 = st.sidebar.selectbox("Player 1 (FC Den Bosch)", player_names)
 use_player_2 = st.sidebar.checkbox("Compare with second player", value=False)
 player_2 = None
 if use_player_2:
-    player_2 = st.sidebar.selectbox("Player 2", ["(none)"] + player_names)
+    player_2 = st.sidebar.selectbox("Player 2 (FC Den Bosch)", ["(none)"] + player_names)
     if player_2 == "(none)":
         player_2 = None
+        
 percentile = st.sidebar.slider("Eredivisie benchmark percentile", 0.50, 0.0, 1.0, 0.01)
 
 positions = sorted(eredivisie_plus3["position"].dropna().unique().tolist())
@@ -111,6 +108,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
