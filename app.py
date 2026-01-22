@@ -1,4 +1,4 @@
-Bo# app.py
+# app.py
 from pathlib import Path
 
 import pandas as pd
@@ -70,7 +70,7 @@ if not player_names:
 
 player_1 = st.sidebar.selectbox(f"Player 1 ({club_filter})", player_names)
 
-use_player_2 = st.sidebar.checkbox("Compare with second Den Bosch player", value=False)
+use_player_2 = st.sidebar.checkbox("Compare with second player", value=False)
 player_2 = None
 if use_player_2:
     player_2 = st.sidebar.selectbox("Player 2", ["(none)"] + player_names)
@@ -98,8 +98,9 @@ if run:
             position_plot=position_override,
         )
 
+        c1, c2, c3, c4 = st.columns(4)
         c1, c2, c3, c4 = st.columns([1, 2.5, 2.5, 1.5])
-        
+
         c1.metric("Position used", meta["target_position"])
         c2.metric("Selected player", player_1)
         c3.metric("Benchmark player", meta["benchmark_name"])
@@ -112,15 +113,6 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
-
-
-
-
-
-
-
-
-
 
 
 
