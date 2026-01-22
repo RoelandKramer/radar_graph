@@ -1,20 +1,20 @@
 # app.py
-from pathlib import Path
-import pandas as pd
-import streamlit as st
-import streamlit as st
-
 
 from analysis import (
     build_df_averages,
     build_league_tables,
     build_den_bosch_table,
     compare_player_to_eredivisie)
-
 from pathlib import Path
 import base64
+import pandas as pd
+import streamlit as st
 
-# --- Load and encode logo ---
+st.set_page_config(
+    page_title="Player vs Eredivisie Radar",
+    layout="wide",
+)
+
 LOGO_PATH = Path(__file__).parent / "den_bosch_logo.png"
 
 def get_base64_image(path: Path) -> str:
@@ -23,41 +23,35 @@ def get_base64_image(path: Path) -> str:
 
 logo_base64 = get_base64_image(LOGO_PATH)
 
-# --- Inject CSS + HTML for sidebar logo ---
-st.markdown(
-    f"""
-    <style>
-    /* Make sidebar relative so we can position inside it */
-    [data-testid="stSidebar"] {{
-        position: relative;
-    }}
+with st.sidebar:
+    st.markdown(
+        f"""
+        <style>
+        /* sidebar must be relative for absolute positioning */
+        [data-testid="stSidebar"] {{
+            position: relative;
+        }}
+        /* pin logo at bottom-left of sidebar */
+        .sidebar-logo {{
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            width: 120px;
+            z-index: 9999;
+        }}
+        .sidebar-logo img {{
+            width: 100%;
+            height: auto;
+        }}
+        </style>
 
-    /* Logo container */
-    .sidebar-logo {{
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        width: 120px;
-        opacity: 0.95;
-    }}
-
-    .sidebar-logo img {{
-        width: 100%;
-        height: auto;
-    }}
-    </style>
-
-    <div class="sidebar-logo">
-        <img src="data:image/png;base64,{logo_base64}">
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-st.set_page_config(
-    page_title="Player vs Eredivisie Radar",
-    layout="wide")
-
+        <div class="sidebar-logo">
+            <img src="data:image/png;base64,{logo_base64}">
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
 st.markdown(
     """
     <style>
@@ -150,6 +144,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
