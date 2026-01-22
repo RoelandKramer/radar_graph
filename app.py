@@ -98,7 +98,7 @@ if run:
             position_plot=position_override,
         )
 
-        c1, c2, c3, c4 = st.columns(4)
+        c1, c2, c3, c4 = st.columns([1, 2.5, 2.5, 1.5])
         
         c1.metric("Position used", meta["target_position"])
         c2.metric("Selected player", player_1)
@@ -112,6 +112,7 @@ if run:
         st.error(str(e))
 else:
     st.info("Pick a player and click **Generate radar chart**.")
+
 
 
 
